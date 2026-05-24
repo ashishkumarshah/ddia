@@ -1,0 +1,18 @@
+[project]
+name = "twitter-benchmark"
+version = "0.1.0"
+description = "Twitter Benchmark"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.136.1",
+    "opentelemetry-distro>=0.49b1",
+    "opentelemetry-exporter-otlp>=1.28.2",
+    "opentelemetry-instrumentation-fastapi>=0.49b1",
+    "opentelemetry-instrumentation-sqlalchemy>=0.49b1",
+    "pydantic>=2.13.4",
+    "prometheus-fastapi-instrumentator>=7.0.0",
+    "router>=0.1",
+    "sqlmodel>=0.0.38",
+    "uvicorn>=0.47.0",
+]

@@ -1,0 +1,33 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python caches and artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build and packaging outputs
+build/
+dist/
+*.egg-info/
+
+# Local tooling and editor files
+.idea/
+.vscode/
+.DS_Store
+
+# Git metadata
+.git/
+.gitignore
+
+# Local env files
+.env
+.env.*
+# Locally built db
+app.db

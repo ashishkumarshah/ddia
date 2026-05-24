@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timeline-service
+  namespace: cobrakai
+  labels:
+    app: timeline-service
+spec:
+  type: ClusterIP
+  selector:
+    app: timeline-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
