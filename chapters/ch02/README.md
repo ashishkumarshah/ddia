@@ -1,4 +1,4 @@
-How to use the example application.
+# How to use the example application.
 
 1. make package deploy -> This will build and install the application.
 2. portforward the time line service to local port 8000 (or anything)
