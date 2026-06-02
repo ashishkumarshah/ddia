@@ -1,4 +1,4 @@
-.PHONY: start docker-build package deploy deploy-observability
+.PHONY: start docker-build package deploy deploy-observability fanout
 
 APP_NAME ?= ddia-ch02
 IMAGE_TAG ?= latest
@@ -26,5 +26,11 @@ deploy-observability:
 
 deploy:
 	$(MAKE) deploy-observability
+	$(KUBECTL) apply -f k8s/redis.yaml
 	$(KUBECTL) apply -f k8s/deployment.yaml
 	$(KUBECTL) apply -f k8s/service.yaml
+
+fanout:
+	$(KUBECTL) delete job -n $(NAMESPACE) stream-consumer --ignore-not-found=true
+	$(KUBECTL) apply -f k8s/stream-consumer-job.yaml
+	$(KUBECTL) wait --for=condition=complete job/stream-consumer -n $(NAMESPACE) --timeout=600s

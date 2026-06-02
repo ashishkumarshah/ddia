@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stream-consumer
+  namespace: cobrakai
+  labels:
+    app: stream-consumer
+spec:
+  template:
+    metadata:
+      labels:
+        app: stream-consumer
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: app-data
+          emptyDir: { }
+      containers:
+        - name: stream-consumer
+          image: ddia-ch02:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DB_PATH
+              value: "/app/data/app.db"
+            - name: DATABASE_URL
+              value: ""
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: MESSAGE_BROKER_HOST
+              value: "broker.cobrakai.svc.cluster.local"
+            - name: MESSAGE_BOX_HOST
+              value: "messagebox.cobrakai.svc.cluster.local"
+          volumeMounts:
+            - name: app-data
+              mountPath: /app/data
+          command:
+            - /app/.venv/bin/python
+            - stream_consumer.py

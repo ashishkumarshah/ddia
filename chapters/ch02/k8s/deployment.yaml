@@ -21,7 +21,7 @@ spec:
     spec:
       volumes:
         - name: app-data
-          emptyDir: {}
+          emptyDir: { }
       containers:
         - name: timeline-service
           image: ddia-ch02:latest
@@ -49,6 +49,10 @@ spec:
               value: "otlp"
             - name: OTEL_METRICS_EXPORTER
               value: "none"
+            - name: MESSAGE_BROKER_HOST
+              value: "broker.cobrakai.svc.cluster.local"
+            - name: MESSAGE_BOX_HOST
+              value: "messagebox.cobrakai.svc.cluster.local"
           volumeMounts:
             - name: app-data
               mountPath: /app/data

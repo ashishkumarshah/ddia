@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from db.session import create_db_and_tables
-from routes import timeline_router
+from routes import dev_router, timeline_router, timeline_v2_router, tweet_router
 
 logging.basicConfig(
     level=os.getenv("LOG_LEVEL", "INFO").upper(),
@@ -23,7 +23,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(dev_router)
 app.include_router(timeline_router)
+app.include_router(timeline_v2_router)
+app.include_router(tweet_router)
 Instrumentator().instrument(app).expose(app)
 
 

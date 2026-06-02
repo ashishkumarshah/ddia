@@ -4,6 +4,7 @@ import threading
 import time
 from collections.abc import Sequence
 
+from opentelemetry import trace
 from pydantic import BaseModel, Field, model_validator
 from sqlmodel import Session
 
@@ -11,6 +12,7 @@ from db import Follows, Posts, Users
 from db.session import engine
 
 logger = logging.getLogger(__name__)
+tracer = trace.get_tracer(__name__)
 
 
 class PercentBand(BaseModel):
@@ -144,7 +146,12 @@ def start_generate_load(payload: GenerateLoadRequest) -> bool:
     def _runner():
         global _is_running
         try:
-            _generate_load(payload)
+            with tracer.start_as_current_span("generateload.thread") as span:
+                span.set_attribute("app.num_users", payload.num_users)
+                span.set_attribute("app.num_posts", payload.num_posts)
+                span.set_attribute("app.num_follows", payload.num_follows)
+                span.set_attribute("app.seed", payload.seed)
+                _generate_load(payload)
         except Exception:
             logger.exception("generateload failed")
         finally:
